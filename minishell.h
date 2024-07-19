@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/07/19 19:58:59 by csouita          ###   ########.fr       */
+/*   Updated: 2024/07/19 21:19:19 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_command
 ////////////////////////7tal hna
 
 
-int 			ft_strlen(char *str);
+size_t 			ft_strlen(char *str);
 void			ft_putstr_fd(char *s, int fd);
 void 			add_spaces(t_data *data);
 t_list			*ft_lstlast(t_list *lst);
@@ -94,10 +94,12 @@ void 			lexer(t_data *line);
 void			ft_lstadd_back_lexer(t_lexer **lst, t_lexer *new);
 t_lexer 		*new_lexer_node(t_tokens type,char *str);
 void 			add_node(t_lexer **head, t_tokens type ,char *str);
+char			*ft_strdup(char *s1);
+char			*ft_substr(char *s, unsigned int start, size_t len);
 /////////////////still for test mn hna /////////
-void display_token_command(t_command *command);
-void	display_token_lexer(t_lexer *lexer);
-char	*get_token(t_tokens token);
+void 			display_token_command(t_command *command);
+void			display_token_lexer(t_lexer *lexer);
+char			*get_token(t_tokens token);
 /////////////////7tal hna ///////////////
 
 #endif

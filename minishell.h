@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/07/19 15:48:19 by csouita          ###   ########.fr       */
+/*   Updated: 2024/07/19 19:58:59 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <unistd.h>
 #include <readline/history.h>
 #include <signal.h>
+#include <stdbool.h>
+
 typedef enum e_num
 {
 	WORD,
@@ -39,10 +41,18 @@ typedef struct s_env
  struct s_env *next;
 }    t_env;
 
+typedef struct s_lexer
+{
+	char				*str;
+	t_tokens			tokens;
+	struct s_lexer		*next;
+}					t_lexer;
+
 typedef struct s_data
 {
     char *line;
     struct s_data *next;
+	t_lexer		*head;
 }   t_data;
 
 typedef struct list
@@ -51,14 +61,43 @@ typedef struct list
 	struct list	*next;
 }				t_list;
 
-int ft_strlen(char *str);
-void	ft_putstr_fd(char *s, int fd);
-void add_spaces(char *line);
-t_list	*ft_lstlast(t_list *lst);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-int	ft_lstsize(t_list *lst);
-void	ft_lstadd_front(t_list **lst, t_list *new);
-t_list	*ft_lstnew(int content);
-void lexer(t_data *line);
+////////////////////only for test mn hna 
+
+typedef struct s_file
+{
+	char				*file_name;
+	t_tokens			file_type;
+	bool				quotes;
+	struct s_file		*next;
+}			t_file;
+
+
+typedef struct s_command
+{
+	char				**cmd;
+	t_file				*file;
+	struct s_command	*next;
+}			t_command;
+
+////////////////////////7tal hna
+
+
+int 			ft_strlen(char *str);
+void			ft_putstr_fd(char *s, int fd);
+void 			add_spaces(t_data *data);
+t_list			*ft_lstlast(t_list *lst);
+// void			ft_lstadd_back(t_list **lst, t_list *new);
+int				ft_lstsize(t_list *lst);
+void			ft_lstadd_front(t_list **lst, t_list *new);
+t_list			*ft_lstnew(int content);
+void 			lexer(t_data *line);
+void			ft_lstadd_back_lexer(t_lexer **lst, t_lexer *new);
+t_lexer 		*new_lexer_node(t_tokens type,char *str);
+void 			add_node(t_lexer **head, t_tokens type ,char *str);
+/////////////////still for test mn hna /////////
+void display_token_command(t_command *command);
+void	display_token_lexer(t_lexer *lexer);
+char	*get_token(t_tokens token);
+/////////////////7tal hna ///////////////
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:09:09 by csouita           #+#    #+#             */
-/*   Updated: 2024/07/19 11:09:33 by csouita          ###   ########.fr       */
+/*   Updated: 2024/07/19 19:07:34 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,18 @@ t_list	*ft_lstlast(t_list *lst)
 	return (p);
 }
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*p;
+// void	ft_lstadd_back(t_lexer **lst, t_lexer *new)
+// {
+// 	t_lexer	*p;
 
-	if (lst == NULL || new == NULL)
-	{
-		return ;
-	}
-	if (*lst == NULL)
-	{
-		*lst = new;
-		return ;
-	}
-	p = ft_lstlast(*lst);
-	p->next = new;
-}
+// 	if (lst == NULL || new == NULL)
+// 		return ;
+// 	if (*lst == NULL)
+// 	{
+// 		*lst = new;
+// 		return ;
+// 	}
+// 	while(p->next)
+// 		p = p->next;
+// 	p->next = new;
+// }

@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:13:52 by csouita           #+#    #+#             */
-/*   Updated: 2024/07/19 21:29:51 by csouita          ###   ########.fr       */
+/*   Updated: 2024/07/20 18:39:38 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 ///////////////////////////7ta nrja3 liha mn hna///////////////////////////
 
+// int count = 0;
 char	*get_token(t_tokens token)
 {
 	if (token == 0)
@@ -171,9 +172,9 @@ void add_node(t_lexer **head, t_tokens type ,char *str)
 
 int word(t_data *data,int i)
 {
-    int start = 0;
-    int end = 0;
-    char *line;
+    int start;
+    int end ;
+    char *line = NULL;
     start = i;
     if(data->line[i] == '"')
     {
@@ -197,8 +198,13 @@ int word(t_data *data,int i)
                 i++;
         }
         end = i;
+        // printf("line start ==%d\n",start);
+        // printf("i == %d\n",i);
+        // printf("line end ==%d\n",end);
+        // printf("count == %d\n",count++);
         line = ft_substr(data->line,start,end - start);
         add_node(&data->head,WORD,line);
+        // free(line);
     return i;
 }
 
@@ -206,7 +212,7 @@ void lexer(t_data *data)
 {
     
     int i = 0;
-    add_spaces(data);
+    // add_spaces2(data);
     
     data->head = NULL;
     while(data->line[i])
@@ -237,7 +243,7 @@ void lexer(t_data *data)
             i++;
         }
         else 
-            word(data,i);
-        i++;
+            i = word(data,i);
+        // i++;
     }
 }

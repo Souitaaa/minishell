@@ -1,6 +1,6 @@
 NAME			= Minishell
 
-SRCS	= 	minishell.c lexer.c utils.c linked.c \
+SRCS	= 	minishell.c lexer.c utils.c linked.c test.c\
 
 CC				= cc
 RM				= rm -f

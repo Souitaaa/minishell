@@ -6,7 +6,8 @@ typedef struct s_data {
     char *line;
 } t_data;
 
-char *add_spaces(t_data *data) {
+char *add_spaces2(t_data *data) 
+{
     int i = 0;
     int j = 0;
     int len = strlen(data->line);
@@ -64,16 +65,16 @@ char *add_spaces(t_data *data) {
     return new_line;
 }
 
-int main() {
-    t_data data;
-    data.line = "   some  >     text<and >>more <<|text|";
+// int main() {
+//     t_data data;
+//     data.line = "   some  >     text<and >>more <<|text|";
     
-    char *modified_line = add_spaces(&data);
-    if (modified_line) {
-        printf("Original: '%s'\n", data.line);
-        printf("Modified: '%s'\n", modified_line);
-        free(modified_line);
-    }
+//     char *modified_line = add_spaces(&data);
+//     if (modified_line) {
+//         printf("Original: '%s'\n", data.line);
+//         printf("Modified: '%s'\n", modified_line);
+//         free(modified_line);
+//     }
     
-    return 0;
-}
+//     return 0;
+// }

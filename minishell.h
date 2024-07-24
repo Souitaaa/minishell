@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/07/20 18:14:41 by csouita          ###   ########.fr       */
+/*   Updated: 2024/07/23 21:13:36 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void 			add_node(t_lexer **head, t_tokens type ,char *str);
 char			*ft_strdup(char *s1);
 char			*ft_substr(char *s, unsigned int start, size_t len);
 char 			*add_spaces2(t_data *data) ;
+int 			syntax_error(t_data *data);
 
 /////////////////still for test mn hna /////////
 void 			display_token_command(t_command *command);

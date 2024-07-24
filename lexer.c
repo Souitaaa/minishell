@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:13:52 by csouita           #+#    #+#             */
-/*   Updated: 2024/07/24 10:42:17 by csouita          ###   ########.fr       */
+/*   Updated: 2024/07/24 17:48:31 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,23 @@ void lexer(t_data *data)
     }
 }
 
+int check_quotes(t_data *data)
+{
+    int i = 0;
+    if(data->line[i] == '\'')
+    {
+        while(data->line[i] && (data->line[i] != '\'' || data->line[i] != '\0'))
+            i++;
+        if(data->line[i] == '\0')
+            return 0;
+        if(data->line[ft_strlen(data->line) - 1] != '\'')
+            return 0;
+        else
+            return 1;
+    }
+    return 1;
+}
+
 int syntax_error(t_data *data)
 {
     if (!data->line)
@@ -195,5 +212,7 @@ int syntax_error(t_data *data)
     else if (data->line[ft_strlen(data->line) - 1] == '>' 
         ||  data->line[ft_strlen(data->line) - 1]  == '<')
         return (0);
+    else if (check_quotes(data) == 0)
+        return 0;
     return (1);   
 }

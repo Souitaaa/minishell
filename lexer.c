@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:13:52 by csouita           #+#    #+#             */
-/*   Updated: 2024/07/24 17:48:31 by csouita          ###   ########.fr       */
+/*   Updated: 2024/07/25 20:53:38 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,22 +186,76 @@ void lexer(t_data *data)
     }
 }
 
+// int check_quotes(t_data *data)
+// {
+//     int i = 0;
+//     if(data->line[i] == '\'' || data->line[i] == '\"')
+//     {
+//         while(data->line[i] && (data->line[i] != '\'' || data->line[i] != '\0'))
+//             i++;
+//         if(data->line[i] == '\0')
+//             return 0;
+//         if(data->line[ft_strlen(data->line) - 1] != '\'')
+//             return 0;
+//         else
+//             return 1;
+//     }
+//     return 1;
+// }
+
+// int is_pair(int number) 
+// {
+//     return number % 2 == 0 ? 1 : 0;
+// }
+
+// int check_pair(t_data *data) 
+// {
+//     // int i = 0; 
+//     int single_quote = 1;
+//     int double_quote = 1;
+//     // while (data->line[i]) 
+//     // {
+//     //     if (data->line[i] == '\'') 
+//     //     {
+//     //         if(data->line[i + 1] == '\"')
+//     //             i++;
+//     //         else
+//     //             single_quote++;
+//     //     }
+//     //     else if (data->line[i] == '\"')
+//     //     {
+//     //         if(data->line[i + 1] == '\'')
+//     //             i++;
+//     //         else 
+//     //             double_quote++;
+//     //     } 
+//     //     i++;
+//     // }
+//     if (is_pair(single_quote) == 1|| is_pair(double_quote) == 1) 
+//         return 0;
+//     else if (is_pair(single_quote) == 0 || is_pair(double_quote) == 0)
+//         return 1;
+//     return 1;
+// }
 int check_quotes(t_data *data)
 {
     int i = 0;
-    if(data->line[i] == '\'')
-    {
-        while(data->line[i] && (data->line[i] != '\'' || data->line[i] != '\0'))
-            i++;
-        if(data->line[i] == '\0')
-            return 0;
-        if(data->line[ft_strlen(data->line) - 1] != '\'')
-            return 0;
-        else
-            return 1;
-    }
+    int quote_char = 0;
+    
+    while (data->line[i] && (data->line[i] != '\'' && data->line[i] != '\"'))
+        i++;
+    
+    if (!data->line[i])
+        return 1;
+    quote_char = data->line[i];
+    i++;
+    while (data->line[i] && data->line[i] != quote_char)
+        i++;
+    if (!data->line[i])
+        return 0;
     return 1;
 }
+
 
 int syntax_error(t_data *data)
 {
@@ -214,5 +268,5 @@ int syntax_error(t_data *data)
         return (0);
     else if (check_quotes(data) == 0)
         return 0;
-    return (1);   
+    return (1);
 }

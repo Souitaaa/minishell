@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:13:52 by csouita           #+#    #+#             */
-/*   Updated: 2024/07/25 20:53:38 by csouita          ###   ########.fr       */
+/*   Updated: 2024/07/26 13:25:04 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,27 +210,17 @@ void lexer(t_data *data)
 
 // int check_pair(t_data *data) 
 // {
-//     // int i = 0; 
+//     int i = 0; 
 //     int single_quote = 1;
 //     int double_quote = 1;
-//     // while (data->line[i]) 
-//     // {
-//     //     if (data->line[i] == '\'') 
-//     //     {
-//     //         if(data->line[i + 1] == '\"')
-//     //             i++;
-//     //         else
-//     //             single_quote++;
-//     //     }
-//     //     else if (data->line[i] == '\"')
-//     //     {
-//     //         if(data->line[i + 1] == '\'')
-//     //             i++;
-//     //         else 
-//     //             double_quote++;
-//     //     } 
-//     //     i++;
-//     // }
+//     while (data->line[i]) 
+//     {
+//         if (data->line[i] == '\'') 
+//                 single_quote++;
+//         else if (data->line[i] == '\"')
+//                 double_quote++;
+//         i++;
+//     }
 //     if (is_pair(single_quote) == 1|| is_pair(double_quote) == 1) 
 //         return 0;
 //     else if (is_pair(single_quote) == 0 || is_pair(double_quote) == 0)
@@ -241,18 +231,23 @@ int check_quotes(t_data *data)
 {
     int i = 0;
     int quote_char = 0;
-    
-    while (data->line[i] && (data->line[i] != '\'' && data->line[i] != '\"'))
+
+    // if (check_pair(data))
+    //     return 1;
+    while (data->line[i])
+    {
+        while (data->line[i] && (data->line[i] != '\'' && data->line[i] != '\"'))
+            i++;
+        if (!data->line[i])
+            return 1;
+        quote_char = data->line[i];
         i++;
-    
-    if (!data->line[i])
-        return 1;
-    quote_char = data->line[i];
-    i++;
-    while (data->line[i] && data->line[i] != quote_char)
+        while (data->line[i] && data->line[i] != quote_char)
+            i++;
+        if (!data->line[i])
+            return 0;
         i++;
-    if (!data->line[i])
-        return 0;
+    }
     return 1;
 }
 

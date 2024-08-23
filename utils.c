@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:37:02 by csouita           #+#    #+#             */
-/*   Updated: 2024/07/19 21:18:55 by csouita          ###   ########.fr       */
+/*   Updated: 2024/08/03 12:59:23 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,25 @@ char	*ft_strdup(char *s1)
 	dest[i] = '\0';
 	return (dest);
 }
+char	*ft_strchr(const char *s, int c)
+{
+	int		i;
+	char	*str;
 
+	i = 0;
+	str = (char *)s;
+	while (s[i] != (char)c)
+	{
+		if (str[i] == '\0')
+			return (NULL);
+		i++;
+	}
+	return (str + i);
+}
 
 
 // int main(int argc, char const *argv[])
 // {
-//     printf("%s\n",ft_substr("souita",2,3));
+//     printf("%s\n",ft_strchr("souita",'i'));
 //     return 0;
 // }

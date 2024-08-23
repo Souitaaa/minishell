@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/07/23 21:13:36 by csouita          ###   ########.fr       */
+/*   Updated: 2024/08/03 12:53:17 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef enum e_num
 typedef struct s_env
 {
  char   *value;
+ char  	*key;
  struct s_env *next;
 }    t_env;
 
@@ -84,6 +85,7 @@ typedef struct s_command
 
 size_t 			ft_strlen(char *str);
 void			ft_putstr_fd(char *s, int fd);
+int				search_in(char *str, char c);
 void 			add_spaces(t_data *data);
 t_list			*ft_lstlast(t_list *lst);
 // void			ft_lstadd_back(t_list **lst, t_list *new);

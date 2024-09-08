@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/08/03 12:53:17 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/08 19:00:20 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ typedef struct s_command
 
 ////////////////////////7tal hna
 
-
+int				ft_isalnum(int c);
+int				ft_isdigit(int c);
+int				ft_strcmp(char *s1, char *s2);
 size_t 			ft_strlen(char *str);
 void			ft_putstr_fd(char *s, int fd);
 int				search_in(char *str, char c);
@@ -100,6 +102,12 @@ char			*ft_strdup(char *s1);
 char			*ft_substr(char *s, unsigned int start, size_t len);
 char 			*add_spaces2(t_data *data) ;
 int 			syntax_error(t_data *data);
+void 			cheking_the_expand(t_lexer *lexer ,t_env *env);
+char 			*get_value(char *key ,t_env *env);
+void 			*get_key(t_lexer *lexer);
+void 			after_quotes(t_lexer *lexer , int *i, char **expanded);
+void 			not_expandable(t_lexer **lexer);
+
 
 /////////////////still for test mn hna /////////
 void 			display_token_command(t_command *command);

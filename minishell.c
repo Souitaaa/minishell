@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:53:48 by csouita           #+#    #+#             */
-/*   Updated: 2024/08/03 13:10:47 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/08 19:55:43 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,117 @@ t_env *cp_env_in_liste(char **env)
     return lst;
 }
 
+void not_expandable(t_lexer **lexer)
+{
+    while((*lexer)->next && (*lexer)->tokens != WORD)
+        *lexer = (*lexer)->next;
+    *lexer = (*lexer)->next;
+}
+void after_quotes(t_lexer *lexer , int *i, char **expanded)
+{
+    // printf("i === %d\n", i);
+    while(lexer->str[*i])
+    {
+        if(ft_strcmp(lexer->str,"$"))
+        {
+            if(!(lexer->next))
+            {
+                *expanded = ft_strdup("$");
+                return;
+            }
+            if(*(lexer)->next->str == '\'' || *(lexer)->next->str == '\"')
+            {
+                *expanded = ft_strdup("");
+                return;
+            }
+        }
+        lexer = lexer->next;
+    }
+}
+
+void *get_key(t_lexer *lexer)
+{
+    int i = 0;
+     int start = 0;
+    int end;
+    
+    while(lexer->str[i])
+    {
+        if(ft_isalnum(lexer->str[i]))
+            i++;
+        // printf("lexer position = %c\n",lexer->str[i]);
+        if(lexer->str[i] == '$')
+        {
+            // printf("vvvvvvvvvvvvvvvv\n");
+            start = i + 1;
+            i = i + 1;
+        }
+        end = i; 
+        if(!(ft_isalnum(lexer->str[i])))
+        {
+            char *string = ft_substr(lexer->str, start, end - start);
+            return string;
+        }
+    }
+    return NULL;
+}
+
+char *get_value(char *key ,t_env *env)
+{
+    // t_env *env = NULL;
+    printf("env->keysssssss%s\n",env->key);
+    if(ft_strcmp(key,env->key) == 0)
+        return env->value;
+    return "";
+}
+
+void cheking_the_expand(t_lexer *lexer ,t_env *env)
+{
+    char *key ;
+    char *value;
+    
+    key = get_key(lexer);
+    value = get_value(key ,env);
+    printf("key----> %s\n",key);
+    printf("value----> %s\n",value);
+}
+
+void expand(t_lexer *lexer  , t_env **env )
+{
+    int i = 0 ;
+    char *expanded = NULL;
+    // printf("str = %s\n",lexer->str);
+    while(lexer)
+    {
+        while(lexer->str[i])
+        {
+            if(lexer->tokens == HEREDOC)
+            {
+                not_expandable(&lexer);
+                continue;
+            }
+            else if(lexer->tokens == WORD && lexer->str[i] == '\'')
+                after_quotes(lexer  , &i, &expanded);
+            else if (lexer->tokens == WORD && lexer->str[i] != '\'')
+            {
+                // printf("str position == %c\n",lexer->str[i]);
+                if(lexer->str[i] && lexer->str[i] == '$' && ft_isdigit(lexer->str[i + 1]) && ft_strlen(lexer->str) <= 2)
+                {
+                    // printf("llllllllllllll\n");
+                    i = i + 2;
+                }
+                else if (lexer->str[i] && lexer->str[i] == '$' && ft_isalnum(lexer->str[i + 1]))
+                {
+                    // printf("dddddddddddddddddddddddd\n");
+                    cheking_the_expand(lexer, *env);
+                }
+            }
+            i++;
+        }
+        lexer = lexer->next;
+    }
+}
+
 int main(int ac ,char *av[], char **envr)
 {
     (void)av;
@@ -103,12 +214,12 @@ int main(int ac ,char *av[], char **envr)
         exit(1);
     }
     env = cp_env_in_liste(envr);
-    while(env)
-    {
-        printf("%s=",env->key);
-        printf("%s\n",env->value);
-        env = env->next;
-    }
+    // while(env)
+    // {
+    //     printf("%s=",env->key);
+    //     printf("%s\n",env->value);
+    //     env = env->next;
+    // }
     
     while(1)
     {
@@ -120,6 +231,7 @@ int main(int ac ,char *av[], char **envr)
         add_history(data.line);
         lexer(&data);
         display_token_lexer(data.head);
+        expand(data.head, &env);
         if (syntax_error(&data) == 0)
             ft_putstr_fd("syntax error\n",2);
         // write(1,"\n",1);

@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:53:48 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/08 19:55:43 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/09 12:11:48 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,13 @@ void *get_key(t_lexer *lexer)
 
 char *get_value(char *key ,t_env *env)
 {
-    // t_env *env = NULL;
-    printf("env->keysssssss%s\n",env->key);
-    if(ft_strcmp(key,env->key) == 0)
-        return env->value;
+    while(env)
+    {
+        // printf("env->keysssssss%s\n",env->key)
+        if(ft_strcmp(key,env->key) == 0)
+            return env->value;
+        env = env->next;
+    }
     return "";
 }
 

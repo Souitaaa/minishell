@@ -9,7 +9,7 @@ RM				= rm -f
 CFLAGS			= -Wall -Wextra -Werror #-g3 -fsanitize=address
 OBJS			= $(SRCS:.c=.o)
 
-all: $(NAME) clean
+all: $(NAME)
 	@clear
 
 $(NAME): $(OBJS)

@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:53:48 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/09 12:11:48 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/10 16:40:04 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,49 +93,42 @@ void not_expandable(t_lexer **lexer)
         *lexer = (*lexer)->next;
     *lexer = (*lexer)->next;
 }
-void after_quotes(t_lexer *lexer , int *i, char **expanded)
+void after_quotes(t_lexer **lexer , int *i, char **expanded)
 {
-    // printf("i === %d\n", i);
-    while(lexer->str[*i])
+    if(!((*lexer)->next))
     {
-        if(ft_strcmp(lexer->str,"$"))
-        {
-            if(!(lexer->next))
-            {
-                *expanded = ft_strdup("$");
-                return;
-            }
-            if(*(lexer)->next->str == '\'' || *(lexer)->next->str == '\"')
-            {
-                *expanded = ft_strdup("");
-                return;
-            }
-        }
-        lexer = lexer->next;
+        *expanded = ft_strdup("$");
+        return;
     }
+    else if((*lexer)->next->str[*i] == '\'' || (*lexer)->next->str[*i] == '\"')
+        *expanded = ft_strdup("");
+    (*lexer) = (*lexer)->next;
+    return;
 }
+    // }
+// }
 
-void *get_key(t_lexer *lexer)
+void *get_key(char *str)
 {
     int i = 0;
-     int start = 0;
+    int start = 0;
     int end;
     
-    while(lexer->str[i])
+    while(str[i])
     {
-        if(ft_isalnum(lexer->str[i]))
+        if(ft_isalnum(str[i]))
             i++;
         // printf("lexer position = %c\n",lexer->str[i]);
-        if(lexer->str[i] == '$')
+        if(str[i] == '$')
         {
             // printf("vvvvvvvvvvvvvvvv\n");
             start = i + 1;
-            i = i + 1;
+            i++;
         }
         end = i; 
-        if(!(ft_isalnum(lexer->str[i])))
+        if(!(ft_isalnum(str[i])))
         {
-            char *string = ft_substr(lexer->str, start, end - start);
+            char *string = ft_substr(str, start, end - start);
             return string;
         }
     }
@@ -148,24 +141,30 @@ char *get_value(char *key ,t_env *env)
     {
         // printf("env->keysssssss%s\n",env->key)
         if(ft_strcmp(key,env->key) == 0)
+        {
+            if(!env->value)
+                return "";
             return env->value;
+        }
         env = env->next;
     }
     return "";
 }
 
-void cheking_the_expand(t_lexer *lexer ,t_env *env)
+void cheking_the_expand(t_lexer *lexer ,t_env *env,int *i)
 {
     char *key ;
     char *value;
     
-    key = get_key(lexer);
+    // printf("test==> %s\n",lexer->str);
+    key = get_key(&lexer->str[*i]);
     value = get_value(key ,env);
     printf("key----> %s\n",key);
-    printf("value----> %s\n",value);
+    printf("value----> %s \n",value);
+    *i = ft_strlen(key); 
 }
 
-void expand(t_lexer *lexer  , t_env **env )
+void expand(t_lexer *lexer  , t_env *env )
 {
     int i = 0 ;
     char *expanded = NULL;
@@ -179,27 +178,77 @@ void expand(t_lexer *lexer  , t_env **env )
                 not_expandable(&lexer);
                 continue;
             }
-            else if(lexer->tokens == WORD && lexer->str[i] == '\'')
-                after_quotes(lexer  , &i, &expanded);
-            else if (lexer->tokens == WORD && lexer->str[i] != '\'')
+            else if(lexer->tokens == WORD && lexer->str[0] != '\'')
             {
-                // printf("str position == %c\n",lexer->str[i]);
-                if(lexer->str[i] && lexer->str[i] == '$' && ft_isdigit(lexer->str[i + 1]) && ft_strlen(lexer->str) <= 2)
-                {
-                    // printf("llllllllllllll\n");
-                    i = i + 2;
-                }
-                else if (lexer->str[i] && lexer->str[i] == '$' && ft_isalnum(lexer->str[i + 1]))
-                {
-                    // printf("dddddddddddddddddddddddd\n");
-                    cheking_the_expand(lexer, *env);
-                }
+                // printf("str[i] ===> %c\n",lexer->str[i]);
+                expandables(&lexer , env, &expanded);
             }
             i++;
         }
         lexer = lexer->next;
     }
 }
+int	expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
+{
+    int i = 0 ;
+    // printf("lllllllllllllllll\n");
+    while((*lexer)->str[i])
+    {
+        if(ft_strcmp((*lexer)->str,"$") == 0)
+        {
+            after_quotes(lexer,&i , str_to_expand);
+            break;
+        }
+        if((*lexer)->str[i] == '$' && ft_isdigit((*lexer)->str[i + 1]) && ft_strlen((*lexer)->str) <= 2)
+            i = i+2;
+        else if((*lexer)->str[i] == '$' && ft_isalnum((*lexer)->str[i + 1]))
+            cheking_the_expand((*lexer) , env, &i);
+        i++;
+    }
+    return 0;
+}
+
+
+// void expandables(t_lexer **lexer  , t_env **env )
+// {
+//     int i = 0 ;
+//     char *expanded = NULL;
+//     // printf("str = %s\n",lexer->str);
+//     while(lexer)
+//     {
+//         while(lexer->str[i])
+//         {
+//             if(lexer->tokens == HEREDOC)
+//             {
+//                 not_expandable(&lexer);
+//                 continue;
+//             }
+//             else if(lexer->tokens == WORD && lexer->str[i] == '\'')
+//             {
+//                 after_quotes(lexer , &i, &expanded);
+//                 break;
+//             }
+//             else if (lexer->tokens == WORD && lexer->str[0] != '\'')
+//             {
+//                 printf("hi===>%c\n",lexer->str[i]);
+//                 // printf("str position == %c\n",lexer->str[i]);
+//                 if(lexer->str[i] && lexer->str[i] == '$' && ft_isdigit(lexer->str[i + 1]) && ft_strlen(lexer->str) <= 2)
+//                     i = i + 2;
+//                 else if (lexer->str[i] && lexer->str[i] == '$' && ft_isalnum(lexer->str[i + 1]))
+//                 {
+//                     printf("llllllllllllll\n");
+//                     cheking_the_expand(lexer, *env,&i);
+//                     i++;
+//                 }
+//                 else
+//                     i++;
+//             }
+//             else
+//                 i++;
+//         }
+//         lexer = lexer->next;
+//     }
+// }
 
 int main(int ac ,char *av[], char **envr)
 {
@@ -234,9 +283,9 @@ int main(int ac ,char *av[], char **envr)
         add_history(data.line);
         lexer(&data);
         display_token_lexer(data.head);
-        expand(data.head, &env);
         if (syntax_error(&data) == 0)
             ft_putstr_fd("syntax error\n",2);
+        expand(data.head, env);
         // write(1,"\n",1);
     }
     clear_history();

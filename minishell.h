@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/08 19:00:20 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/10 16:16:19 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,11 @@ char			*ft_strdup(char *s1);
 char			*ft_substr(char *s, unsigned int start, size_t len);
 char 			*add_spaces2(t_data *data) ;
 int 			syntax_error(t_data *data);
-void 			cheking_the_expand(t_lexer *lexer ,t_env *env);
+void 			cheking_the_expand(t_lexer *lexer ,t_env *env,int *i);
 char 			*get_value(char *key ,t_env *env);
-void 			*get_key(t_lexer *lexer);
-void 			after_quotes(t_lexer *lexer , int *i, char **expanded);
+void 			*get_key(char *str);
+void 			after_quotes(t_lexer **lexer , int *i, char **expanded);
+int				expandables(t_lexer **lexer, t_env *env, char **str_to_expand);
 void 			not_expandable(t_lexer **lexer);
 
 

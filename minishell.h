@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/10 16:16:19 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/12 12:28:27 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_command
 ////////////////////////7tal hna
 
 int				ft_isalnum(int c);
+char			*ft_strjoin(char *s1, char *s2);
 int				ft_isdigit(int c);
 int				ft_strcmp(char *s1, char *s2);
 size_t 			ft_strlen(char *str);
@@ -102,7 +103,7 @@ char			*ft_strdup(char *s1);
 char			*ft_substr(char *s, unsigned int start, size_t len);
 char 			*add_spaces2(t_data *data) ;
 int 			syntax_error(t_data *data);
-void 			cheking_the_expand(t_lexer *lexer ,t_env *env,int *i);
+void 			cheking_the_expand(t_lexer *lexer ,t_env *env,int *i , char **expanded);
 char 			*get_value(char *key ,t_env *env);
 void 			*get_key(char *str);
 void 			after_quotes(t_lexer **lexer , int *i, char **expanded);

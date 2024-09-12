@@ -1,7 +1,7 @@
 NAME			= minishell
 
-SRCS	= 	minishell.c lexer.c utils.c linked.c test.c print_stuffs.c ft_isalnum.c ft_strcmp.c\
-			ft_isdigit.c \
+SRCS	= 	minishell.c lexer.c utils.c linked.c test.c print_stuffs.c ft_isalnum.c ft_strcmp.c \
+			ft_isdigit.c ft_strjoin.c \
 
 CC				= cc
 RM				= rm -f
@@ -10,7 +10,8 @@ CFLAGS			= -Wall -Wextra -Werror #-g3 -fsanitize=address
 OBJS			= $(SRCS:.c=.o)
 
 all: $(NAME)
-	@clear
+	@clear 
+	@./minishell
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline

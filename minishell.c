@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:53:48 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/12 19:11:15 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/18 14:09:29 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void cheking_the_expand(t_lexer *lexer ,t_env *env,int *i ,char **expanded)
 
 }
 
-int	expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
+char	*expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
 {
     int i = 0 ;
     char	tmp[2];
@@ -189,8 +189,12 @@ int	expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
             after_quotes(lexer,&i , str_to_expand);
             break;
         }
-        else if((*lexer)->str[i] == '$' && ft_isdigit((*lexer)->str[i + 1]) && ft_strlen((*lexer)->str) <= 2)
-            i = i+2;
+        if((*lexer)->str[i] == '$' && ft_isdigit((*lexer)->str[i + 1]) && ft_strlen((*lexer)->str) >= 2)
+        {
+            i = i + 2;
+            // return (ft_strdup(""));
+            *str_to_expand = ft_strdup("");
+        }
         else if((*lexer)->str[i] == '$' && ft_isalnum((*lexer)->str[i + 1]))
             cheking_the_expand((*lexer) , env, &i, str_to_expand);
         else
@@ -200,7 +204,7 @@ int	expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
             *str_to_expand = ft_strjoin(*str_to_expand  ,tmp);
         }
     }
-    return 0;
+    return NULL;
 }
 void expand(t_lexer *lexer  , t_env *env )
 {
@@ -210,7 +214,7 @@ void expand(t_lexer *lexer  , t_env *env )
     while(lexer)
     {
         if(lexer->tokens == HEREDOC)
-        {
+        {   
             not_expandable(&lexer);
             continue;
         }
@@ -219,6 +223,7 @@ void expand(t_lexer *lexer  , t_env *env )
         lexer = lexer->next;
     }
     printf("----->%s\n",expanded);
+    // printf("return of expandables ====== {%s}\n",test);
 }
 
 int main(int ac ,char *av[], char **envr)
@@ -253,10 +258,11 @@ int main(int ac ,char *av[], char **envr)
             break;
         add_history(data.line);
         lexer(&data);
-        // display_token_lexer(data.head);
+        display_token_lexer(data.head);
         if (syntax_error(&data) == 0)
             ft_putstr_fd("syntax error\n",2);
         expand(data.head, env);
+        
         // write(1,"\n",1);
     }
     clear_history();

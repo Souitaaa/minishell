@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:13:52 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/06 15:10:21 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/18 14:09:34 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void lexer(t_data *data)
 {
     
     int i = 0;
-    add_spaces2(data);
+    // add_spaces2(data);
     
     data->head = NULL;
     while(data->line[i])

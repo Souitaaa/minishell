@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:53:48 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/18 14:09:29 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/20 17:58:01 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,17 @@ void after_quotes(t_lexer **lexer , int *i, char **expanded)
 {
     if(!((*lexer)->next))
     {
+        // printf("ssssssssssssssssssssssss\n");
         *expanded = ft_strdup("$");
         return;
     }
     else if((*lexer)->next->str[*i] == '\'' || (*lexer)->next->str[*i] == '\"')
-        *expanded = ft_strdup("");
+    {
+        // printf("ssssssssssssssssssssssss\n");
+        *expanded = ft_strdup("f");
+    }
     (*lexer) = (*lexer)->next;
-    return;
+    return ;
 }
     // }
 // }
@@ -154,7 +158,7 @@ char *get_value(char *key ,t_env *env)
         }
         env = env->next;
     }
-    return "";
+    return NULL;
 }
 
 void cheking_the_expand(t_lexer *lexer ,t_env *env,int *i ,char **expanded)
@@ -170,18 +174,15 @@ void cheking_the_expand(t_lexer *lexer ,t_env *env,int *i ,char **expanded)
     printf("key----> %s \n",key);
     *i = ft_strlen(value); 
     if(value)
-    {
         *expanded = ft_strjoin(*expanded,value);
-    }
-        // printf("value----> %s \n",*expanded);
-
+    printf("value----> %s \n",*expanded);
+    return ;
 }
 
-char	*expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
+void expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
 {
     int i = 0 ;
     char	tmp[2];
-    // printf("lllllllllllllllll\n");
     while((*lexer)->str[i])
     {
         if(ft_strcmp((*lexer)->str,"$") == 0)
@@ -192,7 +193,6 @@ char	*expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
         if((*lexer)->str[i] == '$' && ft_isdigit((*lexer)->str[i + 1]) && ft_strlen((*lexer)->str) >= 2)
         {
             i = i + 2;
-            // return (ft_strdup(""));
             *str_to_expand = ft_strdup("");
         }
         else if((*lexer)->str[i] == '$' && ft_isalnum((*lexer)->str[i + 1]))
@@ -203,14 +203,15 @@ char	*expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
             tmp[1] = '\0';
             *str_to_expand = ft_strjoin(*str_to_expand  ,tmp);
         }
+        // i++;
     }
-    return NULL;
-}
+    return ;
+} 
+
 void expand(t_lexer *lexer  , t_env *env )
 {
-    // int i = 0 ;
+    int i = 0;
     char *expanded = NULL;
-    // printf("str = %s\n",lexer->str);
     while(lexer)
     {
         if(lexer->tokens == HEREDOC)
@@ -218,12 +219,14 @@ void expand(t_lexer *lexer  , t_env *env )
             not_expandable(&lexer);
             continue;
         }
-        else if(lexer->tokens == WORD && lexer->str[0] != '\'')
+        else if(lexer->tokens == WORD && lexer->str[i] != '\'')
+        {
             expandables(&lexer , env, &expanded);
+            lexer->str = expanded;            
+        }
         lexer = lexer->next;
     }
     printf("----->%s\n",expanded);
-    // printf("return of expandables ====== {%s}\n",test);
 }
 
 int main(int ac ,char *av[], char **envr)

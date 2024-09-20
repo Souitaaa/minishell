@@ -1,16 +1,10 @@
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-
-typedef struct s_data {
-    char *line;
-} t_data;
+#include "minishell.h"
 
 char *add_spaces2(t_data *data) 
 {
     int i = 0;
     int j = 0;
-    int len = strlen(data->line);
+    int len = ft_strlen(data->line);
     int new_len = 0;
 
     // First pass to calculate the length of the new string

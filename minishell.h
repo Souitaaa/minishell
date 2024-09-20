@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/13 18:24:13 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/20 17:56:21 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void 			cheking_the_expand(t_lexer *lexer ,t_env *env,int *i , char **expanded);
 char 			*get_value(char *key ,t_env *env);
 void 			*get_key(char *str);
 void 			after_quotes(t_lexer **lexer , int *i, char **expanded);
-char 			*expandables(t_lexer **lexer, t_env *env, char **str_to_expand);
+void			expandables(t_lexer **lexer, t_env *env, char **str_to_expand);
 void 			not_expandable(t_lexer **lexer);
 
 

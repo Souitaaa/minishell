@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:37:02 by csouita           #+#    #+#             */
-/*   Updated: 2024/08/03 12:59:23 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/20 15:07:16 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t ft_strlen(char *str)
 {
     size_t i;
     
+	if(!str)
+		return 0;
     i = 0;
     while(str[i])
         i++;

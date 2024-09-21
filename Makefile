@@ -11,7 +11,7 @@ OBJS			= $(SRCS:.c=.o)
 
 all: $(NAME)
 	@clear 
-	@./minishell
+	#@./minishell
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline

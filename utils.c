@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:37:02 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/20 15:07:16 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/21 18:52:21 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ char	*ft_strdup(char *s1)
 	int		i;
 	char	*dest;
 
+	if (!s1)
+		return NULL;
 	i = 0;
 	dest = malloc(sizeof(char) * (ft_strlen(s1) + 1));
 	if (!dest)

@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:53:48 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/20 17:58:01 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/21 18:49:28 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,37 +113,21 @@ void after_quotes(t_lexer **lexer , int *i, char **expanded)
     // }
 // }
 
-void *get_key(char *str)
+// Extract the key starting with '$' from the string
+char	*get_key(char *str)
 {
-    int i = 0;
-    int start = 0;
-    int end;
-    
-    while(str[i])
-    {
-        printf("str[i] ==== %c\n",str[i]);
-        if(ft_isalnum(str[i]))
-        {
-            i++;
-            if(ft_strlen(str) < 2)
-                return NULL;
-        }
-        // printf("lexer position = %c\n",lexer->str[i]);
-        if(str[i] == '$')
-        {
-            // printf("vvvvvvvvvvvvvvvv\n");
-            start = i + 1;
-            i++;
-        }
-        end = i; 
-        if(!(ft_isalnum(str[i])))
-        {
-            char *string = ft_substr(str, start, end - start);
-            return string;
-        }
-    }
-    return NULL;
+	int	i;
+	int	start;
+	int	end;
+
+	i = 1;
+	start = i;
+	while (str[i] && ft_isalnum(str[i]))   
+		i++;
+	end = i;
+	return (ft_substr(str, start, end - start));
 }
+
 
 char *get_value(char *key ,t_env *env)
 {
@@ -163,19 +147,13 @@ char *get_value(char *key ,t_env *env)
 
 void cheking_the_expand(t_lexer *lexer ,t_env *env,int *i ,char **expanded)
 {
-    char *key ;
-    char *value;
-    // int z = 0;
+    char *key = NULL;
+    char *value = NULL;
 
-    // printf("test==> %s\n",lexer->str);
     key = get_key(&lexer->str[*i]);
     value = get_value(key ,env);
-    // *expanded = value;
-    printf("key----> %s \n",key);
-    *i = ft_strlen(value); 
-    if(value)
-        *expanded = ft_strjoin(*expanded,value);
-    printf("value----> %s \n",*expanded);
+    *i = ft_strlen(key) + 1;
+    *expanded = ft_strjoin(*expanded,value);
     return ;
 }
 
@@ -187,7 +165,7 @@ void expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
     {
         if(ft_strcmp((*lexer)->str,"$") == 0)
         {
-            after_quotes(lexer,&i , str_to_expand);
+            after_quotes(lexer,&i ,str_to_expand);
             break;
         }
         if((*lexer)->str[i] == '$' && ft_isdigit((*lexer)->str[i + 1]) && ft_strlen((*lexer)->str) >= 2)
@@ -196,14 +174,17 @@ void expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
             *str_to_expand = ft_strdup("");
         }
         else if((*lexer)->str[i] == '$' && ft_isalnum((*lexer)->str[i + 1]))
+        {
             cheking_the_expand((*lexer) , env, &i, str_to_expand);
+            // i++;
+        }
         else
         {
+            printf("hi a w9------->%c\n" ,(*lexer)->str[i] );
             tmp[0] = (*lexer)->str[i++];
             tmp[1] = '\0';
-            *str_to_expand = ft_strjoin(*str_to_expand  ,tmp);
+            *str_to_expand = ft_strjoin(*str_to_expand ,tmp);
         }
-        // i++;
     }
     return ;
 } 

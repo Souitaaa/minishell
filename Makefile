@@ -5,13 +5,13 @@ SRCS	= 	minishell.c lexer.c utils.c linked.c test.c print_stuffs.c ft_isalnum.c 
 
 CC				= cc
 RM				= rm -f
-#CFLAGS			= -Wall -Wextra   -g3 -fsanitize=address
-CFLAGS			= -Wall -Wextra -Werror #-g3 -fsanitize=address
+# CFLAGS			= -Wall -Wextra   -g3 -fsanitize=address
+CFLAGS			= -Wall -Wextra -Werror -g3 -fsanitize=address
 OBJS			= $(SRCS:.c=.o)
 
 all: $(NAME)
 	@clear 
-	#@./minishell
+	@./minishell
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline

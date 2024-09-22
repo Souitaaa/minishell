@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:53:48 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/21 18:49:28 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/22 21:16:03 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,21 +137,23 @@ char *get_value(char *key ,t_env *env)
         if(ft_strcmp(key,env->key) == 0)
         {
             if(!env->value)
-                return "";
+                return "g";
             return env->value;
         }
         env = env->next;
     }
-    return NULL;
+    return ft_strdup("");
 }
 
 void cheking_the_expand(t_lexer *lexer ,t_env *env,int *i ,char **expanded)
 {
-    char *key = NULL;
-    char *value = NULL;
+    char *key;
+    char *value;
 
     key = get_key(&lexer->str[*i]);
+    printf("key---->%s\n",key);
     value = get_value(key ,env);
+    printf("value---->%s\n",value);
     *i = ft_strlen(key) + 1;
     *expanded = ft_strjoin(*expanded,value);
     return ;
@@ -168,19 +170,15 @@ void expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
             after_quotes(lexer,&i ,str_to_expand);
             break;
         }
-        if((*lexer)->str[i] == '$' && ft_isdigit((*lexer)->str[i + 1]) && ft_strlen((*lexer)->str) >= 2)
+        else if((*lexer)->str[i] == '$' && ft_isdigit((*lexer)->str[i + 1]) && ft_strlen((*lexer)->str) >= 2)
         {
             i = i + 2;
             *str_to_expand = ft_strdup("");
         }
         else if((*lexer)->str[i] == '$' && ft_isalnum((*lexer)->str[i + 1]))
-        {
             cheking_the_expand((*lexer) , env, &i, str_to_expand);
-            // i++;
-        }
         else
         {
-            printf("hi a w9------->%c\n" ,(*lexer)->str[i] );
             tmp[0] = (*lexer)->str[i++];
             tmp[1] = '\0';
             *str_to_expand = ft_strjoin(*str_to_expand ,tmp);
@@ -191,10 +189,12 @@ void expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
 
 void expand(t_lexer *lexer  , t_env *env )
 {
+    // (void) env;
     int i = 0;
     char *expanded = NULL;
     while(lexer)
     {
+        printf("====>%s\n",lexer->str);
         if(lexer->tokens == HEREDOC)
         {   
             not_expandable(&lexer);
@@ -207,7 +207,7 @@ void expand(t_lexer *lexer  , t_env *env )
         }
         lexer = lexer->next;
     }
-    printf("----->%s\n",expanded);
+    printf("l9lawi lkherani -:=> %s\n" ,expanded);
 }
 
 int main(int ac ,char *av[], char **envr)
@@ -233,12 +233,12 @@ int main(int ac ,char *av[], char **envr)
     //     env = env->next;
     // }
     
-    while(1)
+    while (data.line)
     {
         data.line = readline("minishell> ");
         // exit(1);
         // printf("%s\n",t_data.line);
-        if(!data.line)
+        if (!data.line)
             break;
         add_history(data.line);
         lexer(&data);

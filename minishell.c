@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:53:48 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/23 19:01:55 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/24 19:44:13 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ char *get_value(char *key ,t_env *env)
         if(ft_strcmp(key,env->key) == 0)
         {
             if(!env->value)
-                return "g";
+                return "";
             return env->value;
         }
         env = env->next;
@@ -151,11 +151,11 @@ void cheking_the_expand(t_lexer *lexer ,t_env *env,int *i ,char **expanded)
     char *value;
 
     key = get_key(&lexer->str[*i]);
-    printf("key---->%s\n",key);
+    // printf("key---->%s\n",key);
     value = get_value(key ,env);
-    printf("value---->%s\n",value);
+    // printf("value---->%s\n",value);
     *i += ft_strlen(key);
-    printf("------->%d\v\t\r\n",*i);
+    // printf("------->%d\v\t\r\n",*i);
     *expanded = ft_strjoin(*expanded,value);
 }
 
@@ -190,6 +190,27 @@ void expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
     }
     return ;
 } 
+char *handel_quotes(char *str)
+{
+    int i = 0;
+    int j = 0;
+    char *tmp_str = NULL;
+    char tmp_char;
+    tmp_str = malloc(sizeof(char) * ft_strlen(str) + 1);
+    while (str[i])
+    {
+        if(str[i] == '\'' || str[i] == '\"')
+        {
+            tmp_char = str[i++];
+            while(str[i] && str[i] != tmp_char )
+                tmp_str[j++] = str[i++];
+        }
+        else
+            tmp_str[j++] = str[i++];
+    }
+    tmp_str[j] = '\0';
+    return tmp_str;
+}
 
 void expand(t_lexer *lexer  , t_env *env )
 {
@@ -198,7 +219,7 @@ void expand(t_lexer *lexer  , t_env *env )
     char *expanded = NULL;
     while(lexer)
     {
-        printf("====>%s\n",lexer->str);
+        // printf("====>%s\n",lexer->str);
         if(lexer->tokens == HEREDOC)
         {   
             not_expandable(&lexer);
@@ -209,9 +230,11 @@ void expand(t_lexer *lexer  , t_env *env )
             expandables(&lexer , env, &expanded);
             lexer->str = expanded;            
         }
+        lexer->str = handel_quotes(lexer->str);
+        printf("expanded -:=> %s\n" ,lexer->str);
         lexer = lexer->next;
     }
-    printf("expanded -:=> %s\n" ,expanded);
+    // printf("expanded -:=> %s\n" ,expanded);
 }
 
 int main(int ac ,char *av[], char **envr)
@@ -250,6 +273,8 @@ int main(int ac ,char *av[], char **envr)
         if (syntax_error(&data) == 0)
             ft_putstr_fd("syntax error\n",2);
         expand(data.head, env);
+        
+        // handel_quotes()
         
         // write(1,"\n",1);
     }

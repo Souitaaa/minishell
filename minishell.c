@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:53:48 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/22 21:16:03 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/23 19:01:55 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,9 @@ void cheking_the_expand(t_lexer *lexer ,t_env *env,int *i ,char **expanded)
     printf("key---->%s\n",key);
     value = get_value(key ,env);
     printf("value---->%s\n",value);
-    *i = ft_strlen(key) + 1;
+    *i += ft_strlen(key);
+    printf("------->%d\v\t\r\n",*i);
     *expanded = ft_strjoin(*expanded,value);
-    return ;
 }
 
 void expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
@@ -176,11 +176,15 @@ void expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
             *str_to_expand = ft_strdup("");
         }
         else if((*lexer)->str[i] == '$' && ft_isalnum((*lexer)->str[i + 1]))
+        {
             cheking_the_expand((*lexer) , env, &i, str_to_expand);
+            i++;
+        }    
         else
         {
             tmp[0] = (*lexer)->str[i++];
             tmp[1] = '\0';
+            // printf("%s\v\n",tmp);
             *str_to_expand = ft_strjoin(*str_to_expand ,tmp);
         }
     }
@@ -207,7 +211,7 @@ void expand(t_lexer *lexer  , t_env *env )
         }
         lexer = lexer->next;
     }
-    printf("l9lawi lkherani -:=> %s\n" ,expanded);
+    printf("expanded -:=> %s\n" ,expanded);
 }
 
 int main(int ac ,char *av[], char **envr)

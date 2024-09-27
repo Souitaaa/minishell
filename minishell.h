@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/23 18:42:00 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:09:25 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ char 			*get_key(char *str);
 void 			after_quotes(t_lexer **lexer , int *i, char **expanded);
 void			expandables(t_lexer **lexer, t_env *env, char **str_to_expand);
 void 			not_expandable(t_lexer **lexer);
+int 			check_dollar(char *str);
 
 
 /////////////////still for test mn hna /////////

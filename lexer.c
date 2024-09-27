@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:13:52 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/20 15:54:07 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/27 18:28:17 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,15 +111,12 @@ void add_node(t_lexer **head, t_tokens type ,char *str)
 int word(t_data *data,int i)
 {
     int start;
-    // int end ;
     char *line = NULL;
     start = i;
     
     if(data->line[i] == '"')
     {
-        // while(data->line[i] && data->line[i] == '\"')
             i++;
-        // start = i;
         while(data->line[i] && data->line[i] != '"')
             i++;
         if(data->line[i])
@@ -127,9 +124,7 @@ int word(t_data *data,int i)
     }
     else if (data->line[i] && data->line[i] == '\'')
     {
-        // while(data->line[i] && data->line[i] == '\'')
             i++;
-        // start = i;
         while(data->line[i] != '\'')
             i++;
         if(data->line[i])
@@ -137,15 +132,11 @@ int word(t_data *data,int i)
     }
     else
         {
-            while(data->line[i] && data->line[i] != '"' && data->line[i] != '\'' && data->line[i] != '>' && data->line[i] != '<' && data->line[i] != '|' && data->line[i] != 32  )
-            {
+            while(data->line[i] && data->line[i] != '"' && data->line[i] != '\'' && data->line[i] != '>' && data->line[i] != '<' && data->line[i] != '|' && data->line[i] != 32)
                 i++;
-            }
         }
-        // end = i;
         line = ft_substr(data->line, start,i - start);
         add_node(&data->head,WORD,line);
-        // free(line);
     return i;
 }
 int	add_whitespace(int i, t_data **data)

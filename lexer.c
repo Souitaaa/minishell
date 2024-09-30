@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:13:52 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/27 18:28:17 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/29 13:26:39 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int word(t_data *data,int i)
     else if (data->line[i] && data->line[i] == '\'')
     {
             i++;
-        while(data->line[i] != '\'')
+        while(data->line[i] && data->line[i] != '\'')
             i++;
         if(data->line[i])
             i++;
@@ -265,10 +265,10 @@ int syntax_error(t_data *data)
 {
     if (!data->line)
         return (0);
-    if (data->line[0] == '|' || data->line[ft_strlen(data->line) - 1] == '|')
+    if (data->line[0] == '|' || data->line[ft_strlen(data->line)] == '|')
         return (0);
-    else if (data->line[ft_strlen(data->line) - 1] == '>' 
-        ||  data->line[ft_strlen(data->line) - 1]  == '<')
+    else if (data->line[ft_strlen(data->line)] == '>' 
+        ||  data->line[ft_strlen(data->line)]  == '<')
         return (0);
     else if (check_quotes(data) == 0)
         return 0;

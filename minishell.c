@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:53:48 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/27 17:34:12 by csouita          ###   ########.fr       */
+/*   Updated: 2024/09/30 16:01:11 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,7 @@ void after_quotes(t_lexer **lexer , int *i, char **expanded)
         return;
     }
     else if((*lexer)->next->str[*i] == '\'' || (*lexer)->next->str[*i] == '\"')
-    {
-        *expanded = ft_strdup("f");
-    }
+        *expanded = ft_strdup("");
     (*lexer) = (*lexer)->next;
     return ;
 }
@@ -156,7 +154,14 @@ void expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
     char	tmp[2];
     while((*lexer)->str[i])
     {
-        if(ft_strcmp((*lexer)->str,"$") == 0)
+        if ( (*lexer)->str[i] == '\'' )
+        {
+            while((*lexer)->str[i] && (*lexer)->str[i] != '\'')
+                i++;
+            if ((*lexer)->str[i] == '\'')
+                i++;
+        }
+        else  if(ft_strcmp((*lexer)->str,"$") == 0)
         {
             after_quotes(lexer,&i ,str_to_expand);
             break;
@@ -210,13 +215,17 @@ int check_dollar(char *str)
     while(str[i])
     {
         if(str[i] == '$')
+        {
+            if (i != 0 && str[i - 1] == '$')
+                return (0);
             dollar_count++;
+        }
         i++;
     }
-    if(dollar_count % 2 == 0)
-        return 1;
+    if (dollar_count > 0)
+        return (1);
     else
-        return 0;
+        return (0);
 }
 
 // char *remove_dollar(char *str)
@@ -240,7 +249,7 @@ int lenght_before_dollar(char *str)
     int i = 0 ;
     while(str[i] && str[i] != '$')
         i++;
-    printf("lenght === %d\n",i);
+    // printf("lenght === %d\n",i);
     return i ;
 }
 
@@ -257,12 +266,12 @@ char *remove_add_dollar(char *str)
         tmp_str[j++] = str[i++];
     while(str[i] && str[i] == '$')
         i++;
-    if(check_dollar(str) == 0)
+    if(check_dollar(str))
         tmp_str[j++] = '$';
     while(str[i])
             tmp_str[j++] = str[i++];
     tmp_str[j] = '\0';
-    printf("tmp ==== %s\n",tmp_str);
+    // printf("tmp ==== %s\n",tmp_str);
     return tmp_str;
 }
 
@@ -281,7 +290,7 @@ char *remove_add_dollar(char *str)
 //         if(str[i] == '$' && dollar_pos == -1)
 //         {
 //             dollar_pos = j;
-//             i++;
+//             i++;if(dollar_count && dollar_count % 2 == 0)
 //             continue;
 //         }
 //         tmp_str[j] = str[i];
@@ -307,26 +316,35 @@ void expand(t_lexer *lexer  , t_env *env )
     char *expanded = NULL;
     while(lexer)
     {
+        // printf("??%s??\n", lexer->str);
         if(check_dollar(lexer->str))
             lexer->str = remove_add_dollar(lexer->str);
         if(check_dollar(lexer->str) == 0)
             lexer->str = remove_add_dollar(lexer->str);
-        printf("====>%s\n",lexer->str);
+        printf("!!!====>%s\n",lexer->str);
+        if (strlen(lexer->str) == 0)
+        {
+            lexer = lexer->next;
+            continue;
+        }
+        lexer->str = handel_quotes(lexer->str);
         if(lexer->tokens == HEREDOC)
         {   
             not_expandable(&lexer);
-            continue;
+            continue ;
         }
         else if(lexer->tokens == WORD && lexer->str[i] != '\'')
         {
             expandables(&lexer , env, &expanded);
-            lexer->str = expanded;            
+            if (expanded)
+                lexer->str += *expanded;    
+            else
+                lexer->str = ft_strdup("");   
         }
-        lexer->str = handel_quotes(lexer->str);
-        printf("expanded -:=> %s\n" ,lexer->str);
+        // printf("expanded -:=> %s\n" ,lexer->str);
         lexer = lexer->next;
     }
-    // printf("expanded -:=> %s\n" ,expanded);
+    printf("expanded -:=> %s\n" ,expanded);
 }
 
 int main(int ac ,char *av[], char **envr)

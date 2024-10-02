@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*get_env_value(t_env *env, char *key)
+char	*get_value(t_env *env, char *key)
 {
 	while (env)
 	{
@@ -28,7 +28,7 @@ char	*get_env_value(t_env *env, char *key)
 	return (ft_strdup(""));
 }
 
-char	*to_expand(char *str)
+char	*get_key(char *str)
 {
 	int	i;
 	int	start;
@@ -53,7 +53,7 @@ int	check_quotes_in_expand(char *str)
 	return (0);
 }
 
-void	expand_helper(t_lexer **lexer, t_env *env, char **str_to_expand)
+void	the_expandables(t_lexer **lexer, t_env *env, char **str_to_expand)
 {
 	int	i;
 
@@ -62,7 +62,7 @@ void	expand_helper(t_lexer **lexer, t_env *env, char **str_to_expand)
 	{
 		if (ft_strcmp((*lexer)->str, "$") == 0)
 		{
-			if (quote_after_dollar(lexer, str_to_expand))
+			if (after_quote(lexer, str_to_expand))
 				break ;
 		}
 		else if ((*lexer)->str[i] == '$' && (ft_isdigit((*lexer)->str[i + 1])
@@ -70,7 +70,7 @@ void	expand_helper(t_lexer **lexer, t_env *env, char **str_to_expand)
 			i += 2;
 		else if ((*lexer)->str[i] == '$' && (ft_isalnum((*lexer)->str[i + 1])))
 		{
-			probability_to_expand((*lexer)->str, env, &i, str_to_expand);
+			cheking_the_expand((*lexer)->str, env, &i, str_to_expand);
 			i++;
 		}
 		else
@@ -87,15 +87,15 @@ void expand(t_lexer *lexer, t_env *env)
 		str_to_expand = NULL;
 		if (lexer->tokens == HEREDOC)
 		{
-			dont_expand(&lexer);
+			not_expandables(&lexer);
 			continue ;
 		}
 		else if (lexer->tokens == WORD && lexer->str[0] != '\'')
 		{
-			expand_helper(&lexer, env, &str_to_expand);
+			the_expandables(&lexer, env, &str_to_expand);
 			lexer->str = str_to_expand;
 		}
-		printf("expanded ==== %s\n",lexer->str);
+		printf("expanded ==== %s && %d\n",lexer->str, lexer->str[0]);
 		lexer = lexer->next;
 	}
 }

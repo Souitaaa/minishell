@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	quote_after_dollar(t_lexer **lexer, char **str_to_expand)
+int	after_quote(t_lexer **lexer, char **str_to_expand)
 {
 	if (!(*lexer)->next)
 	{
@@ -53,13 +53,13 @@ char	*add_escape_characters(char *str)
 	return (newstr[j] = '\0', newstr);
 }
 
-int	probability_to_expand(char *str, t_env *env, int *i, char **str_to_expand)
+int	cheking_the_expand(char *str, t_env *env, int *i, char **str_to_expand)
 {
 	char	*key;
 	char	*value;
 
-	key = to_expand(&str[*i]);
-	value = get_env_value(env, key);
+	key = get_key(&str[*i]);
+	value = get_value(env, key);
 	*i += ft_strlen(key);
 	if (value)
 	{
@@ -69,7 +69,7 @@ int	probability_to_expand(char *str, t_env *env, int *i, char **str_to_expand)
 	return (0);
 }
 
-void	dont_expand(t_lexer **lexer)
+void	not_expandables(t_lexer **lexer)
 {
 	while ((*lexer)->next && (*lexer)->tokens != WORD)
 		(*lexer) = (*lexer)->next;
@@ -97,7 +97,7 @@ void	expand_in_heredoc(char **str, t_env *env)
 			&& ft_strlen(*str) > 2)
 			i += 2;
 		if ((*str)[i] == '$' && ft_isalnum((*str)[i + 1]))
-			(probability_to_expand(*str, env, &i, &str_to_expand), i++);
+			(cheking_the_expand(*str, env, &i, &str_to_expand), i++);
 		else
 			special_case_in_heredoc(*str, &str_to_expand, &i);
 	}

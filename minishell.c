@@ -122,7 +122,10 @@ int main(int ac ,char *av[], char **envr)
         lexer(&data);
         display_token_lexer(data.head);
         if (syntax_error(&data) == 0)
+        {
             ft_putstr_fd("syntax error\n",2);
+            continue ;
+        }
         expand(data.head, env);
         
         // handel_quotes()

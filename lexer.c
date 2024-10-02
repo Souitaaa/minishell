@@ -66,26 +66,6 @@ void	ft_lstadd_back_lexer(t_lexer **lst, t_lexer *new)
     }
 	p->next = new;
 }
-// void	ft_lstadd_back(t_lexer **lst, t_lexer *new)
-// {
-// 	t_lexer	*last;
-
-// 	last = *lst;
-// 	if (lst == NULL || new == NULL)
-// 	{
-// 		return ;
-// 	}
-// 	if (*lst == NULL)
-// 	{
-// 		*lst = new;
-// 		return ;
-// 	}
-// 	while (last->next != NULL)
-// 	{
-// 		last = last->next;
-// 	}
-// 	last->next = new;
-// }
 
 t_lexer *new_lexer_node(t_tokens type,char *str)
 {
@@ -260,12 +240,39 @@ int check_quotes(t_data *data)
     return 1;
 }
 
+int is_whites_spaces(char c)
+{
+    return (c == 32 || (c >= 9 && c <= 13));
+}
+
+int check_pipe(char *s)
+{
+    int i;
+
+    if (!s)
+        return (1);
+    i = 0;
+    while (s[i])
+    {
+        if (s[i] && s[i] == '|')
+        {
+            if (s[i])
+                i++;
+            while (s[i] && is_whites_spaces(s[i]))
+                i++;
+            if (s[i] && s[i] == '|')
+                return (1);
+        }
+        i++;
+    }
+    return (0);
+}
 
 int syntax_error(t_data *data)
 {
     if (!data->line)
         return (0);
-    if (data->line[0] == '|' || data->line[ft_strlen(data->line)] == '|')
+    if (data->line[0] == '|' || data->line[ft_strlen(data->line) - 1] == '|' || check_pipe(data->line))
         return (0);
     else if (data->line[ft_strlen(data->line)] == '>' 
         ||  data->line[ft_strlen(data->line)]  == '<')

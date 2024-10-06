@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/05 18:09:21 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/06 20:31:01 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,15 @@ int				ft_strcmp(char *s1, char *s2);
 size_t 			ft_strlen(char *str);
 void			ft_putstr_fd(char *s, int fd);
 void 			add_spaces(t_data *data);
+char			**ft_split(char *s, char c);
 t_list			*ft_lstlast(t_list *lst);
 int				ft_lstsize(t_list *lst);
 void			ft_lstadd_front(t_list **lst, t_list *new);
 t_list			*ft_lstnew(int content);
 void 			lexer(t_data *line);
 void			ft_lstadd_back_lexer(t_lexer **lst, t_lexer *new);
+void			ft_lstadd_back_file(t_file **lst, t_file *new);
+void			ft_lstadd_back_command(t_command **lst, t_command *new);
 t_lexer 		*new_lexer_node(t_tokens type,char *str);
 void 			add_node(t_lexer **head, t_tokens type ,char *str);
 char			*ft_strdup(char *s1);
@@ -113,11 +116,12 @@ void			special_case(t_lexer *lexer, char **str_to_expand, int *i);
 char			**get_key_before_expand(void);
 void			special_case_in_heredoc(char *str, char **str_to_expand, int *i);
 void			dollar_and_quote(char **str_to_expand, int *i);
-void  			parser(t_data *data);
-void 			parser_works(char **command , t_lexer **head);
-static bool 	is_redirection(t_tokens token);
-static void 	handle_redirection(t_lexer **head, char **file_name);
-static void 	handle_word(char **command, t_lexer **head);
+t_command *parser(t_data *data);
+void NewFunction(t_command *command_list);
+void parser_works(char **command, t_lexer **head, t_file **file_name);
+int is_redirection(t_tokens token);
+void 			handle_redirection(t_lexer **head, t_file **file_name ,int redirection_type);
+void 			handle_word(char **command, t_lexer **head);
 
 
 

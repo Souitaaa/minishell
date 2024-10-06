@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:09:09 by csouita           #+#    #+#             */
-/*   Updated: 2024/07/19 19:07:34 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/06 19:12:05 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,39 @@ t_list	*ft_lstlast(t_list *lst)
 	return (p);
 }
 
-// void	ft_lstadd_back(t_lexer **lst, t_lexer *new)
-// {
-// 	t_lexer	*p;
+void	ft_lstadd_back_command(t_command **lst, t_command *new)
+{
+	t_command	*p;
 
-// 	if (lst == NULL || new == NULL)
-// 		return ;
-// 	if (*lst == NULL)
-// 	{
-// 		*lst = new;
-// 		return ;
-// 	}
-// 	while(p->next)
-// 		p = p->next;
-// 	p->next = new;
-// }
+	if (lst == NULL || new == NULL)
+		return ;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	p = *lst;
+	while(p->next)
+	{
+		p = p->next;	
+	}
+	p->next = new;
+}
+
+void	ft_lstadd_back_file(t_file **lst, t_file *new)
+{
+	t_file	*p = NULL;
+
+	if (lst == NULL || new == NULL)
+		return ;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	p = *lst;
+	while(p->next)
+		p = p->next;
+	p->next = new;
+}
+

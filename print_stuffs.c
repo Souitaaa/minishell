@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:12:28 by csouita           #+#    #+#             */
-/*   Updated: 2024/07/23 18:13:35 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/06 21:41:12 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,34 +40,31 @@ void	display_token_lexer(t_lexer *lexer)
 		lexer = lexer->next;
 	}
 }
-// void display_token_command(t_command *command)
-// {
-//     int node = 1;
+void display_token_command(t_command *command)
+{
+    int node = 1;
     
-//         while (command)
-//         {
-//             printf("command[%d]:\n", node);
+        while (command)
+        {
+            printf("command[%d]:\n", node);
 
-//             if (command->cmd)
-//             {
-//                 int i = 0;
-//                 while (command->cmd[i])
-//                 {
-//                     printf("\tcontent[%d]: %s\n", i + 1, command->cmd[i]);
-//                     i++;
-             
-//                 }
-//             }
-//             while (command->file)
-//             {
-//                 // printf("\tquotes : %d \n",command->file->quotes);
-//                 printf("\tfile name: %s \tfile type: %s\n", command->file->file_name,get_token(command->file->file_type));   
-//                 command->file = command->file->next;
-//             }
-//             node++;
-//             command = command->next;
-//         }
-
-// }
+            if (command->cmd)
+            {
+                int i = 0;
+                if (command->cmd[i])
+                {
+                    printf("\tcontent[%d]: %s\n", i + 1, command->cmd[i]);
+                        i++;
+                }
+            }
+            while (command->file)
+            {
+                printf("\tfile name: %s \tfile type: %s\n", command->file->file_name,get_token(command->file->file_type));   
+                command->file = command->file->next;
+            }
+            node++;
+            command = command->next;
+        }
+}
 
 ///////////////////7tal hna ///////////////////////////////

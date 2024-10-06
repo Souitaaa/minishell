@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:19:24 by aabdenou          #+#    #+#             */
-/*   Updated: 2024/10/01 17:35:53 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/05 16:56:52 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void expand(t_lexer *lexer, t_env *env)
 			the_expandables(&lexer, env, &str_to_expand);
 			lexer->str = str_to_expand;
 		}
-		printf("expanded ==== %s && %d\n",lexer->str, lexer->str[0]);
+		printf("expanded ==== %s\n",lexer->str);
 		lexer = lexer->next;
 	}
 }

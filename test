@@ -24,3 +24,8 @@ expanded ==== "aa   bb"
 minishell> ls > $v // l v makhss ykoun fiha kter mn arg wa7d
 
 cat << ""l && cat << ''l should not expand 
+
+----------------------------------------
+
+ls |"       "
+ls > >> << <  // darori ykoun werah chi haja

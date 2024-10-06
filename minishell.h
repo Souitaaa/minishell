@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/01 17:24:11 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/05 18:09:21 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct list
 	struct list	*next;
 }				t_list;
 
-////////////////////only for test mn hna 
 
 typedef struct s_file
 {
@@ -75,12 +74,11 @@ typedef struct s_file
 
 typedef struct s_command
 {
-	char				**cmd;
+	char				**cmd;//[0] command [1] argument
 	t_file				*file;
 	struct s_command	*next;
 }			t_command;
 
-////////////////////////7tal hna
 
 int				ft_isalnum(int c);
 char			*ft_strjoin(char *s1, char *s2);
@@ -88,10 +86,8 @@ int				ft_isdigit(int c);
 int				ft_strcmp(char *s1, char *s2);
 size_t 			ft_strlen(char *str);
 void			ft_putstr_fd(char *s, int fd);
-// int				search_in(char *str, char c);
 void 			add_spaces(t_data *data);
 t_list			*ft_lstlast(t_list *lst);
-// void			ft_lstadd_back(t_list **lst, t_list *new);
 int				ft_lstsize(t_list *lst);
 void			ft_lstadd_front(t_list **lst, t_list *new);
 t_list			*ft_lstnew(int content);
@@ -103,13 +99,6 @@ char			*ft_strdup(char *s1);
 char			*ft_substr(char *s, unsigned int start, size_t len);
 char 			*add_spaces2(t_data *data) ;
 int 			syntax_error(t_data *data);
-// void 			cheking_the_expand(t_lexer *lexer ,t_env *env,int *i , char **expanded);
-// char 			*get_value(char *key ,t_env *env);
-// char 			*get_key(char *str);
-// void 			after_quotes(t_lexer **lexer , int *i, char **expanded);
-// void			expandables(t_lexer **lexer, t_env *env, char **str_to_expand);
-// void 			not_expandable(t_lexer **lexer);
-// int 			check_dollar(char *str);
 void 			expand(t_lexer *lexer, t_env *env);
 void			the_expandables(t_lexer **lexer, t_env *env, char **str_to_expand);
 int				check_quotes_in_expand(char *str);
@@ -124,6 +113,13 @@ void			special_case(t_lexer *lexer, char **str_to_expand, int *i);
 char			**get_key_before_expand(void);
 void			special_case_in_heredoc(char *str, char **str_to_expand, int *i);
 void			dollar_and_quote(char **str_to_expand, int *i);
+void  			parser(t_data *data);
+void 			parser_works(char **command , t_lexer **head);
+static bool 	is_redirection(t_tokens token);
+static void 	handle_redirection(t_lexer **head, char **file_name);
+static void 	handle_word(char **command, t_lexer **head);
+
+
 
 
 

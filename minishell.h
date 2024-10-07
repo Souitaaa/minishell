@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/06 20:31:01 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/07 16:55:02 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ char			**get_key_before_expand(void);
 void			special_case_in_heredoc(char *str, char **str_to_expand, int *i);
 void			dollar_and_quote(char **str_to_expand, int *i);
 t_command *parser(t_data *data);
-void NewFunction(t_command *command_list);
 void parser_works(char **command, t_lexer **head, t_file **file_name);
 int is_redirection(t_tokens token);
 void 			handle_redirection(t_lexer **head, t_file **file_name ,int redirection_type);

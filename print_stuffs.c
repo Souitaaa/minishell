@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:12:28 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/06 21:41:12 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/07 16:42:18 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void display_token_command(t_command *command)
             if (command->cmd)
             {
                 int i = 0;
-                if (command->cmd[i])
+                while (command->cmd[i])
                 {
                     printf("\tcontent[%d]: %s\n", i + 1, command->cmd[i]);
                         i++;

@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:53:48 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/06 21:26:14 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/07 17:00:29 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int main(int ac ,char *av[], char **envr)
             break;
         add_history(data.line);
         lexer(&data);
-        display_token_lexer(data.head);
+        // display_token_lexer(data.head);
         if (syntax_error(&data) == 0)
         {
             ft_putstr_fd("syntax error\n",2);
@@ -133,6 +133,5 @@ int main(int ac ,char *av[], char **envr)
         
         // write(1,"\n",1);
     }
-    clear_history();
     return 0;
 }

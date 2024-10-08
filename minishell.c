@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:53:48 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/07 17:00:29 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/07 21:07:06 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ int main(int ac ,char *av[], char **envr)
         }
         expand(data.head, env);
         display_token_command(parser(&data));
-        
         // handel_quotes()
         
         // write(1,"\n",1);

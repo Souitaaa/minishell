@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:13:52 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/29 13:26:39 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/07 18:49:59 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,8 +270,8 @@ int check_pipe(char *s)
 
 int syntax_error(t_data *data)
 {
-    if (!data->line)
-        return (0);
+    if (!data->line[0])
+        return (1);
     if (data->line[0] == '|' || data->line[ft_strlen(data->line) - 1] == '|' || check_pipe(data->line))
         return (0);
     else if (data->line[ft_strlen(data->line)] == '>' 

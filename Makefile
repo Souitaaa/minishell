@@ -1,7 +1,7 @@
 NAME			= minishell
 
 SRCS	= 	minishell.c lexer.c utils.c linked.c test.c print_stuffs.c ft_isalnum.c ft_strcmp.c \
-			ft_isdigit.c ft_strjoin.c expand.c expand_loot_box.c expand_loot_box_2.c parser.c \
+			ft_isdigit.c ft_strjoin.c expand.c expand_2.c expand_3.c parser.c \
 			ft_split.c \
 
 CC				= cc

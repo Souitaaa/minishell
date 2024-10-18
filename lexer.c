@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:13:52 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/07 18:49:59 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/16 16:35:05 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,16 +268,38 @@ int check_pipe(char *s)
     return (0);
 }
 
+
+int check_redirection(char *line)
+{
+    int i = 0;
+    while (line[i])
+    {
+        if (line[i] == '>' || line[i] == '<')
+        {
+            while (line[i] == '>' || line[i] == '<')
+                i++;
+            while (line[i] == ' ' || line[i] == '\t')
+                i++;
+            if (line[i] == '\0' || line[i] == '|')
+                return 0;
+        }
+        i++;
+    }
+    return 1;
+}
+
 int syntax_error(t_data *data)
 {
     if (!data->line[0])
         return (1);
     if (data->line[0] == '|' || data->line[ft_strlen(data->line) - 1] == '|' || check_pipe(data->line))
         return (0);
-    else if (data->line[ft_strlen(data->line)] == '>' 
+    if (data->line[ft_strlen(data->line)] == '>' 
         ||  data->line[ft_strlen(data->line)]  == '<')
         return (0);
-    else if (check_quotes(data) == 0)
+    if (check_redirection(data->line) == 0)
+        return 0;
+    if (check_quotes(data) == 0)
         return 0;
     return (1);
 }

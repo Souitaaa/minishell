@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 17:01:46 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/08 20:41:07 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/16 18:31:33 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void handle_redirection(t_lexer **head, t_file **file_name ,int redirection_type
 {
     t_file *node;
     char *temp = NULL;
-    
+   
     *head = (*head)->next;
     while (*head && (*head)->tokens == WHITESPACE)
         *head = (*head)->next;
@@ -103,7 +103,7 @@ t_command *ft_add_command(char *command, t_file **file)
     int i = 0;
     char **commands = ft_split(command, ' ');
     if (!commands)
-        return NULL;
+       return NULL;
     node = malloc(sizeof(t_command));
     while(commands[i])
         i++;
@@ -122,6 +122,7 @@ t_command *ft_add_command(char *command, t_file **file)
 
 void ft_create_command(t_command **command_list, char *command, t_file **file)
 {
+  
     t_command *node ;
     node = ft_add_command(command, file);
     ft_lstadd_back_command(command_list, node);
@@ -137,6 +138,7 @@ t_command *parser(t_data *data)
     command_list = NULL;
     while (head)
     {
+        
         while (head && head->tokens != PIPE)
             parser_works(&command, &head,  &file);
         ft_create_command(&command_list,command,&file);
@@ -147,3 +149,4 @@ t_command *parser(t_data *data)
     }
     return command_list;
 }
+

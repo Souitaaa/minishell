@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/08 19:54:16 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/16 16:35:18 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int 			is_redirection(t_tokens token);
 void 			handle_redirection(t_lexer **head, t_file **file_name ,int redirection_type);
 void 			handle_word(char **command, t_lexer **head);
 char 			*handle_quotes(char *str);
+int 			check_redirection(char *line);
 
 
 

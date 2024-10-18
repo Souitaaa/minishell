@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:12:28 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/07 16:42:18 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/09 17:21:05 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void display_token_command(t_command *command)
     
         while (command)
         {
-            printf("command[%d]:\n", node);
 
             if (command->cmd)
             {

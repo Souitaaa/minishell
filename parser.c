@@ -31,6 +31,8 @@ t_file *ft_create_node(char *file_name, t_tokens redirection_type)
     t_file *node = malloc(sizeof(t_file));
     
     char *unquoted_name = handle_quotes(file_name);
+    printf("name === %s\n",unquoted_name);
+    printf("redirection type === %d\n",redirection_type);
     node->file_name = unquoted_name;
     node->file_type = redirection_type;
     node->next = NULL;

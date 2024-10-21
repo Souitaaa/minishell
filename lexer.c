@@ -149,14 +149,14 @@ void lexer(t_data *data)
            add_node(&data->head,PIPE,"|");
            i++;
         }
-        else if (data->line[i] == '>' && data->line[i + 1] == '>')
-        {
-            add_node(&data->head,HEREDOC,">>");
-            i = i+2;
-        }
         else if (data->line[i] == '<' && data->line[i + 1] == '<')
         {
-            add_node(&data->head,APPEND,"<<");
+            add_node(&data->head,HEREDOC,"<<");
+            i = i+2;
+        }
+        else if (data->line[i] == '>' && data->line[i + 1] == '>')
+        {
+            add_node(&data->head,APPEND,">>");
             i = i+2;
         }
         else if (data->line[i] == '>')

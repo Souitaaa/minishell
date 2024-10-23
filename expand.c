@@ -6,11 +6,27 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:19:24 by aabdenou          #+#    #+#             */
-/*   Updated: 2024/10/07 17:00:40 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/23 17:23:28 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int has_quote(char *delim)
+{
+	int	i;
+	
+	if (!delim)
+		return (0);
+	i = 0;
+	while (delim[i])
+	{
+		if (delim[i] && (delim[i] == '\'' || delim[i] == '"'))
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 char	*get_value(t_env *env, char *key)
 {

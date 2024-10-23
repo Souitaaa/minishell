@@ -30,3 +30,9 @@ cat << ""l && cat << ''l should not expand
 ls |"       "
 ls > >> << <  // darori ykoun werah chi haja
 ls >> ""$USER ====> hna khas thayd empty string bach tb9a $USER bohodha ;
+
+
+syntaax erroe ==========================================      
+ila kan 2 or more redirections wra ba3dhom 
+haka                  >> >> or << << or >> > or << > or >> < ...
+========================================================

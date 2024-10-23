@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 17:01:46 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/16 18:31:33 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/23 16:17:26 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ t_file *ft_create_node(char *file_name, t_tokens redirection_type)
     t_file *node = malloc(sizeof(t_file));
     
     char *unquoted_name = handle_quotes(file_name);
-    printf("name === %s\n",unquoted_name);
-    printf("redirection type === %d\n",redirection_type);
+    printf("name 1111 === %s\n",unquoted_name);
+    printf("redirection type 1111 === %d\n",redirection_type);
     node->file_name = unquoted_name;
     node->file_type = redirection_type;
     node->next = NULL;
@@ -114,10 +114,16 @@ t_command *ft_add_command(char *command, t_file **file)
     while(commands[i])
     {
         node->cmd[i] = handle_quotes(commands[i]);
+        printf("node _ commands == %s\n",node->cmd[i]);
         i++;
     }
     node->cmd[i] = NULL;
     node->file = *file;
+    if(node->file)
+    {
+        printf("file_name === %s\n",node->file->file_name);
+        printf("file_type === %d\n",node->file->file_type);
+    }
     node->next = NULL;
     return node;
 }
@@ -140,7 +146,6 @@ t_command *parser(t_data *data)
     command_list = NULL;
     while (head)
     {
-        
         while (head && head->tokens != PIPE)
             parser_works(&command, &head,  &file);
         ft_create_command(&command_list,command,&file);
@@ -151,4 +156,3 @@ t_command *parser(t_data *data)
     }
     return command_list;
 }
-

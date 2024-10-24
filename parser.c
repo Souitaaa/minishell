@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 17:01:46 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/24 15:09:52 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/24 20:10:20 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,11 +170,6 @@ t_command *ft_add_command(char *command, t_file **file)
     //     printf("file_name === %s\n",node->file->file_name);
     //     printf("file_type === %d\n",node->file->file_type);
     // }
-    if(node->file->is_ambigous)
-    {
-        printf("minishell> %s : ambiguous redirect \n",node->file->file_name);
-        return 0;
-    }
     node->next = NULL;
     return node;
 }
@@ -199,6 +194,19 @@ t_command *parser(t_data *data)
     {
         while (head && head->tokens != PIPE)
             parser_works(&command, &head,  &file);
+         t_file *temp = file;
+        while (temp)
+        {
+            if (temp->is_ambigous)
+            {
+                printf("minishell> %s : ambiguous redirect\n", temp->file_name);
+                // Clean up and return NULL to indicate error
+                free(command);
+                // You might want to add proper cleanup for file and command_list here
+                return NULL;
+            }
+            temp = temp->next;
+        }
         ft_create_command(&command_list,command,&file);
         command = NULL;
 		file = NULL;

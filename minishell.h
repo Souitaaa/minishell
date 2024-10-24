@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:54:21 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/23 17:07:10 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:02:27 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ typedef struct s_file
 {
 	char				*file_name;
 	t_tokens			file_type;
-	bool				quotes;
+	int				is_qouted;
+	int 			is_ambigous;
 	struct s_file		*next;
 }			t_file;
 
@@ -79,7 +80,8 @@ typedef struct s_command
 	struct s_command	*next;
 }			t_command;
 
-
+char			*ft_strchr(char *s, int c);
+int				ft_strchr_(char *s, int c);
 int				ft_isalnum(int c);
 char			*ft_strjoin(char *s1, char *s2);
 int				ft_isdigit(int c);
@@ -124,8 +126,6 @@ void 			handle_word(char **command, t_lexer **head);
 char 			*handle_quotes(char *str);
 int 			check_redirection(char *line);
 char			**ft_split00(char *s);
-int 			ft_count_elem_var(char *s);
-int 			ft_check_ambigous(t_lexer *lxr);
 
 
 

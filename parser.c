@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 17:01:46 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/23 16:17:26 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:01:13 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,21 @@ void handle_word(char **command, t_lexer **head)
     *head = (*head)->next;
 }
 
-t_file *ft_create_node(char *file_name, t_tokens redirection_type)
+t_file *ft_create_node(char *file_name, t_tokens redirection_type,int is_ambigous,int is_qouted)
 {
     t_file *node = malloc(sizeof(t_file));
     
     char *unquoted_name = handle_quotes(file_name);
-    printf("name 1111 === %s\n",unquoted_name);
-    printf("redirection type 1111 === %d\n",redirection_type);
+    // printf("name 1111 === %s\n",unquoted_name);
+    // printf("redirection type 1111 === %d\n",redirection_type);
+    if(is_ambigous)
+        node->is_ambigous = 1;
+    else
+        node->is_ambigous = 0;
+    if(is_qouted)
+        node->is_qouted = 1;
+    else
+        node->is_qouted = 0;
     node->file_name = unquoted_name;
     node->file_type = redirection_type;
     node->next = NULL;
@@ -63,11 +71,37 @@ char *handle_quotes(char *str)
     tmp_str[j] = '\0';
     return tmp_str;
 }
+int count_arg(char **str)
+{
+    int i = 0;
+    while(str[i])
+    {
+        i++;
+    }
+    return(i);
+}
+
+int check_qoutes(char *str)
+{
+    // char q;
+    if(str[0] == '\'' || str[0] == '\"') 
+    {
+        return(1);
+        // q = str[0];
+    }
+    return(0);
+    // || str[ft_strlen(str) -1] = '\'')
+}
 
 void handle_redirection(t_lexer **head, t_file **file_name ,int redirection_type)
 {
     t_file *node;
     char *temp = NULL;
+    char **file_name_tmp = NULL;
+    int is_qouted = 0;
+    int is_ambigous = 0;
+
+    
    
     *head = (*head)->next;
     while (*head && (*head)->tokens == WHITESPACE)
@@ -77,7 +111,19 @@ void handle_redirection(t_lexer **head, t_file **file_name ,int redirection_type
         temp = ft_strjoin(temp, (*head)->str);
         *head = (*head)->next;
     }
-    node = ft_create_node(temp, redirection_type);
+    if(check_qoutes(temp))
+    {
+        is_qouted = 1;
+    }
+    else
+    {
+        file_name_tmp = ft_split00(temp);
+        if(count_arg(file_name_tmp) != 1)
+            is_ambigous = 1;
+        else
+            temp = file_name_tmp[0];
+    }
+    node = ft_create_node(temp, redirection_type,is_ambigous,is_qouted);
     ft_lstadd_back_file(file_name, node);
 }
 
@@ -114,15 +160,20 @@ t_command *ft_add_command(char *command, t_file **file)
     while(commands[i])
     {
         node->cmd[i] = handle_quotes(commands[i]);
-        printf("node _ commands == %s\n",node->cmd[i]);
+        // printf("node _ commands == %s\n",node->cmd[i]);
         i++;
     }
     node->cmd[i] = NULL;
     node->file = *file;
-    if(node->file)
+    // if(node->file)
+    // {
+    //     printf("file_name === %s\n",node->file->file_name);
+    //     printf("file_type === %d\n",node->file->file_type);
+    // }
+    if(node->file->is_ambigous)
     {
-        printf("file_name === %s\n",node->file->file_name);
-        printf("file_type === %d\n",node->file->file_type);
+        printf("is_ambig hana azebi : %s \n",node->file->file_name);
+        return 0;
     }
     node->next = NULL;
     return node;

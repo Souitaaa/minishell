@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:37:02 by csouita           #+#    #+#             */
-/*   Updated: 2024/09/29 13:23:33 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/23 22:35:32 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*ft_strdup(char *s1)
 	dest[i] = '\0';
 	return (dest);
 }
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
 	int		i;
 	char	*str;
@@ -89,7 +89,21 @@ char	*ft_strchr(const char *s, int c)
 	}
 	return (str + i);
 }
+int		ft_strchr_(char *s, int c)
+{
+	int		i;
+	char	*str;
 
+	i = 0;
+	str = (char *)s;
+	while (s[i] != (char)c)
+	{
+		if (str[i] == '\0')
+			return 0;
+		i++;
+	}
+	return (1);
+}
 
 // int main(int argc, char const *argv[])
 // {

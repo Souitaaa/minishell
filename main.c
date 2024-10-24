@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:53:48 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/23 17:08:02 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/24 14:19:06 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,11 @@ int main(int ac ,char *av[], char **envr)
             continue ;
         }
         expand(data.head, env);
-        if(ft_check_ambigous(data.head))
-            return (1);
-        // display_token_command(parser(&data));
+        // if(ft_check_ambigous(data.head))
+        //     return (1);
+        display_token_command(parser(&data));
         // handel_quotes()
-        parser(&data);
+        // parser(&data);
         // ft_count_elem_var("hello worls \"tet                   tet\"");
         // write(1,"\n",1);
     }

@@ -6,7 +6,7 @@
 /*   By: csouita <csouita@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 17:01:46 by csouita           #+#    #+#             */
-/*   Updated: 2024/10/24 15:01:13 by csouita          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:09:52 by csouita          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ t_command *ft_add_command(char *command, t_file **file)
     // }
     if(node->file->is_ambigous)
     {
-        printf("is_ambig hana azebi : %s \n",node->file->file_name);
+        printf("minishell> %s : ambiguous redirect \n",node->file->file_name);
         return 0;
     }
     node->next = NULL;
